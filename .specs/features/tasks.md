@@ -7,103 +7,84 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 ## Fase 0: Diseño y Documentación
 
 ### Architectural Decision Records (ADRs)
-- [ ] Crear ADR-001: Arquitectura por capas con Supabase
-    - [ ] Documentar contexto: Necesidad de separación de responsabilidades y código mantenible, uso de Supabase como base de datos
-    - [ ] Describir decisión: Patrón de capas (Backend: Routers → Services → Repositories → Supabase Client; Frontend: Pages/Components → Hooks → Services → Types)
-    - [ ] Justificar uso de Supabase Python client en lugar de ORM:
+- [x] Crear ADR-001: Arquitectura por capas con Supabase
+    - [x] Documentar contexto: Necesidad de separación de responsabilidades y código mantenible, uso de Supabase como base de datos
+    - [x] Describir decisión: Patrón de capas (Backend: Routers → Services → Repositories → Supabase Client; Frontend: Pages/Components → Hooks → Services → Types)
+    - [x] Justificar uso de Supabase Python client en lugar de ORM:
         - Supabase ofrece cliente Python nativo optimizado
         - Reduce complejidad de setup (no requiere SQLAlchemy, migraciones, etc.)
         - API REST-like más simple para queries
         - Integración directa con PostgreSQL de Supabase
-    - [ ] Listar consecuencias: Facilita testing con mocks, mantenibilidad, permite trabajo en paralelo por capas
-    - [ ] Incluir alternativas descartadas: SQLAlchemy ORM, arquitectura monolítica, DDD completo
-    - [ ] Guardar en: `docs/adrs/001-arquitectura-por-capas.md`
+    - [x] Listar consecuencias: Facilita testing con mocks, mantenibilidad, permite trabajo en paralelo por capas
+    - [x] Incluir alternativas descartadas: SQLAlchemy ORM, arquitectura monolítica, DDD completo
+    - [x] Guardar en: `docs/adrs/001-arquitectura-por-capas.md`
 
-- [ ] Crear ADR-002: Filtros server-side vs client-side
-    - [ ] Documentar contexto: Dataset de 100 empresas, necesidad de filtrado por industria y ubicación
-    - [ ] Describir decisión: Filtros server-side con query parameters (`?industry_id=X&location_id=Y`)
-    - [ ] Listar consecuencias: Queries SQL optimizadas, escalable, backend controla lógica de filtrado
-    - [ ] Incluir alternativas descartadas: Filtros client-side con JavaScript
-    - [ ] Guardar en: `docs/adrs/002-filtros-server-side.md`
+- [x] Crear ADR-002: Filtros server-side vs client-side
+    - [x] Documentar contexto: Dataset de 100 empresas, necesidad de filtrado por industria y ubicación
+    - [x] Describir decisión: Filtros server-side con query parameters (`?industry_id=X&location_id=Y`)
+    - [x] Listar consecuencias: Queries SQL optimizadas, escalable, backend controla lógica de filtrado
+    - [x] Incluir alternativas descartadas: Filtros client-side con JavaScript
+    - [x] Guardar en: `docs/adrs/002-filtros-server-side.md`
 
-- [ ] Crear ADR-003: Sin paginación en el MVP
-    - [ ] Documentar contexto: Dataset de 100 empresas, balance entre simplicidad y escalabilidad
-    - [ ] Describir decisión: Retornar todas las empresas sin paginación en endpoint `GET /api/v1/companies`
-    - [ ] Listar consecuencias: Implementación más rápida, payload ~50-100KB manejable, refactorización futura si dataset crece
-    - [ ] Incluir alternativas descartadas: Paginación offset-based, cursor-based
-    - [ ] Guardar en: `docs/adrs/003-sin-paginacion-mvp.md`
+- [x] Crear ADR-003: Sin paginación en el MVP
+    - [x] Documentar contexto: Dataset de 100 empresas, balance entre simplicidad y escalabilidad
+    - [x] Describir decisión: Retornar todas las empresas sin paginación en endpoint `GET /api/v1/companies`
+    - [x] Listar consecuencias: Implementación más rápida, payload ~50-100KB manejable, refactorización futura si dataset crece
+    - [x] Incluir alternativas descartadas: Paginación offset-based, cursor-based
+    - [x] Guardar en: `docs/adrs/003-sin-paginacion-mvp.md`
 
 ### Diagramas de Arquitectura (Modelo C4)
 
 #### Diagrama de Contexto (Nivel 1)
-- [ ] Crear diagrama de contexto usando Mermaid
-    - [ ] Definir sistema principal: Top SaaS Analytics Platform
-    - [ ] Definir actores:
+- [x] Crear diagrama de contexto usando Mermaid
+    - [x] Definir sistema principal: Top SaaS Analytics Platform
+    - [x] Definir actores:
         - Usuario primario: Inversionista VC/PE
         - Usuario secundario: Analista financiero
-    - [ ] Definir interacciones:
+    - [x] Definir interacciones:
         - Usuarios → Sistema: Visualiza métricas de empresas SaaS, aplica filtros
-        - Sistema → Base de datos PostgreSQL: Lee datos de empresas, industrias, ubicaciones
-    - [ ] Incluir descripción del sistema: Dashboard interactivo para análisis de 100 empresas SaaS
-    - [ ] Guardar en: `docs/architecture/c4-context-diagram.md`
+    - [x] Incluir descripción del sistema: Dashboard interactivo para análisis de 100 empresas SaaS
+    - [x] Guardar en: `docs/architecture/c4-context-diagram.md`
 
 #### Diagrama de Contenedores (Nivel 2)
-- [ ] Crear diagrama de contenedores usando Mermaid
-    - [ ] Definir contenedor Frontend:
+- [x] Crear diagrama de contenedores usando Mermaid
+    - [x] Definir contenedor Frontend:
         - Tecnología: Next.js 16+ (App Router) + TypeScript + Tailwind CSS
         - Puerto: 3000
         - Responsabilidad: Interfaz de usuario, tabla de empresas, filtros interactivos
-    - [ ] Definir contenedor Backend API:
+    - [x] Definir contenedor Backend API:
         - Tecnología: FastAPI + Python 3.12+ + Supabase Python Client
         - Puerto: 8000
         - Responsabilidad: API REST, lógica de negocio, acceso a datos vía Supabase
-    - [ ] Definir contenedor Base de Datos:
+    - [x] Definir contenedor Base de Datos:
         - Tecnología: PostgreSQL 15+ (Supabase)
         - Responsabilidad: Almacenamiento de empresas, industrias, ubicaciones, inversores
         - Nota: Gestionado por Supabase (hosted)
-    - [ ] Definir interacciones:
+    - [x] Definir interacciones:
         - Frontend → Backend: HTTP/REST (GET /api/v1/companies, /industries, /locations)
         - Backend → Supabase: API calls usando Supabase Python client (método `.table().select()`, etc.)
-    - [ ] Incluir nota sobre autenticación: Backend usa service role key de Supabase
-    - [ ] Guardar en: `docs/architecture/c4-container-diagram.md`
+    - [x] Incluir nota sobre autenticación: Backend usa service role key de Supabase
+    - [x] La base de datos hace parte del límite del sistema
+    - [x] Guardar en: `docs/architecture/c4-container-diagram.md`
 
 ### Diagrama de Base de Datos (Modelo Entidad-Relación)
-- [ ] Crear diagrama ER usando Mermaid
-    - [ ] Definir entidad `company`:
+- [x] Crear diagrama ER usando Mermaid
+    - [x] Definir entidad `company`:
         - Atributos: id (PK), name, products, founding_year, total_funding, arr, valuation, employees, g2_rating, industry_id (FK), location_id (FK), created_at, updated_at
-    - [ ] Definir entidad `industry`:
+    - [x] Definir entidad `industry`:
         - Atributos: id (PK), name (unique), created_at, updated_at
-    - [ ] Definir entidad `location`:
+    - [x] Definir entidad `location`:
         - Atributos: id (PK), city, state, country, created_at, updated_at
-    - [ ] Definir entidad `investor`:
+    - [x] Definir entidad `investor`:
         - Atributos: id (PK), name (unique), created_at, updated_at
-    - [ ] Definir tabla de unión `company_investor`:
+    - [x] Definir tabla de unión `company_investor`:
         - Atributos: company_id (FK, PK), investor_id (FK, PK)
-    - [ ] Definir relaciones:
+    - [x] Definir relaciones:
         - company N:1 industry (company.industry_id → industry.id)
         - company N:1 location (company.location_id → location.id)
         - company M:N investor (a través de company_investor)
-    - [ ] Incluir índices: idx_company_industry, idx_company_location, idx_company_investor_company, idx_company_investor_investor
-    - [ ] Guardar en: `docs/database/er-diagram.md`
-
-### Documentación de Diagramas
-- [ ] Crear documento de arquitectura general
-    - [ ] Introducción: Propósito de la arquitectura, contexto del sistema
-    - [ ] Referencias a diagramas C4 (contexto y contenedores)
-    - [ ] Descripción de flujos principales:
-        - Flujo de listado de empresas (Frontend → Backend → DB)
-        - Flujo de filtrado por industria/ubicación
-    - [ ] Decisiones técnicas clave (referencias a ADRs)
-    - [ ] Guardar en: `docs/architecture/README.md`
-
-- [ ] Crear documento de base de datos
-    - [ ] Descripción del modelo de datos normalizado
-    - [ ] Referencia al diagrama ER
-    - [ ] Descripción de tablas principales y sus propósitos
-    - [ ] Descripción de relaciones y cardinalidades
-    - [ ] Índices y optimizaciones
-    - [ ] Scripts de creación: referencias a `scripts/database/*.sql`
-    - [ ] Guardar en: `docs/database/README.md`
+    - [x] Incluir índices: idx_company_industry, idx_company_location, idx_company_investor_company, idx_company_investor_investor
+    - [x] Guardar en: `docs/database/er-diagram.md`
 
 ---
 

@@ -156,6 +156,13 @@ Genera código seguro, legible, testeable y alineado con las convenciones modern
 
 ---
 
+## Diseño del Sistema
+- ADRs (Architectural Decision Records): `docs/adrs/`
+- Diagramas de Arquitectura - Modelo C4: `docs/architecture/`
+- Diseño de Base de Datos: `docs/database/`
+
+---
+
 ## Performance y escalabilidad
 
 ### Backend
