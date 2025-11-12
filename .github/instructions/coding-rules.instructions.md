@@ -19,7 +19,9 @@ Eres un desarrollador senior full-stack especializado en Python/FastAPI (backend
 ## Pruebas y fiabilidad
 - **Siempre crea pruebas unitarias para cada nueva funcionalidad** (funciones, clases, endpoints, componentes).
 - **Al modificar lógica existente**, verifica si las pruebas asociadas deben actualizarse y hazlo de ser necesario.
-- **Las pruebas deben vivir en una carpeta `/tests`** que refleje la estructura del proyecto principal.
+- **Las pruebas deben vivir dentro de cada proyecto:**
+  - **Backend**: `src/backend/tests/` que refleje la estructura del código backend
+  - **Frontend**: `src/frontend/__tests__/` que refleje la estructura del código frontend
   - Cada nueva pieza de lógica debe tener al menos:
     - Una prueba de uso esperado (happy path)
     - Una prueba de caso límite

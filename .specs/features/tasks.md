@@ -340,7 +340,7 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 
 #### Tests de CompanyService
 - [ ] Crear tests para CompanyService
-    - [ ] Crear `tests/services/test_company_service.py`:
+    - [ ] Crear `src/backend/tests/services/test_company_service.py`:
         - Setup: Mock de `Client` (Supabase) y `CompanyRepository`
         - Test: `test_list_companies_without_filters()`:
             - Mock repository retorna lista de 100 dicts con datos de empresas
@@ -366,7 +366,7 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 
 #### Tests de IndustryService
 - [ ] Crear tests para IndustryService
-    - [ ] Crear `tests/services/test_industry_service.py`:
+    - [ ] Crear `src/backend/tests/services/test_industry_service.py`:
         - Setup: Mock de `Client` (Supabase) y `IndustryRepository`
         - Test: `test_list_industries()`:
             - Mock repository retorna lista de 42 dicts de industrias
@@ -375,7 +375,7 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 
 #### Tests de LocationService
 - [ ] Crear tests para LocationService
-    - [ ] Crear `tests/services/test_location_service.py`:
+    - [ ] Crear `src/backend/tests/services/test_location_service.py`:
         - Setup: Mock de `Client` (Supabase) y `LocationRepository`
         - Test: `test_list_locations()`:
             - Mock repository retorna lista de 50 dicts de ubicaciones
@@ -386,7 +386,7 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 
 #### Configuración de tests
 - [ ] Configurar pytest para FastAPI con Supabase
-    - [ ] Crear `tests/conftest.py`:
+    - [ ] Crear `src/backend/tests/conftest.py`:
         - Fixture `mock_supabase_client`: retorna mock de Supabase Client
         - Fixture `client`: crea `TestClient` de FastAPI
         - Fixture `override_get_db`: sobreescribe dependency `get_db` con mock_supabase_client
@@ -394,7 +394,7 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 
 #### Tests de Health Endpoint
 - [ ] Verificar/actualizar tests para health endpoint
-    - [ ] Crear o verificar `tests/api/test_health.py`:
+    - [ ] Crear o verificar `src/backend/tests/api/test_health.py`:
         - Test: `test_health_check()`:
             - Request: `GET /api/v1/health`
             - Verificar status code: 200
@@ -402,7 +402,7 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 
 #### Tests de Companies Endpoint
 - [ ] Crear tests para companies endpoint
-    - [ ] Crear `tests/api/test_companies.py`:
+    - [ ] Crear `src/backend/tests/api/test_companies.py`:
         - Setup: Mock de `get_db` dependency que retorna mock de Supabase Client
         - Test: `test_get_companies_without_filters()`:
             - Request: `GET /api/v1/companies`
@@ -431,7 +431,7 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 
 #### Tests de Industries Endpoint
 - [ ] Crear tests para industries endpoint
-    - [ ] Crear `tests/api/test_industries.py`:
+    - [ ] Crear `src/backend/tests/api/test_industries.py`:
         - Setup: Mock de `get_db` dependency que retorna mock de Supabase Client
         - Test: `test_get_industries()`:
             - Request: `GET /api/v1/industries`
@@ -444,7 +444,7 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 
 #### Tests de Locations Endpoint
 - [ ] Crear tests para locations endpoint
-    - [ ] Crear `tests/api/test_locations.py`:
+    - [ ] Crear `src/backend/tests/api/test_locations.py`:
         - Setup: Mock de `get_db` dependency que retorna mock de Supabase Client
         - Test: `test_get_locations()`:
             - Request: `GET /api/v1/locations`
@@ -464,11 +464,11 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
     - [ ] Revisar reporte HTML en `htmlcov/index.html`
 
 ### Validación de Calidad de Código
-- [ ] Ejecutar linting y formateo
-    - [ ] Ejecutar: `uv run ruff check src/backend`
-    - [ ] Corregir warnings/errores reportados
-    - [ ] Ejecutar: `uv run ruff format src/backend`
-    - [ ] Verificar que todos los archivos están formateados
+- [x] Ejecutar linting y formateo
+    - [x] Ejecutar: `uv run ruff check src/backend`
+    - [x] Corregir warnings/errores reportados
+    - [x] Ejecutar: `uv run ruff format src/backend`
+    - [x] Verificar que todos los archivos están formateados
 
 - [ ] Ejecutar type checking
     - [ ] Añadir `mypy` a dependencias: `uv add --dev mypy`
@@ -875,7 +875,7 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
     - [ ] Configurar base URL: `http://localhost:3000`
 
 - [ ] Crear tests E2E básicos (opcional)
-    - [ ] Crear `tests/e2e/companies.spec.ts`:
+    - [ ] Crear `src/frontend/__tests__/e2e/companies.spec.ts`:
         - Test: "Debe cargar listado de empresas"
         - Test: "Debe filtrar por industria"
         - Test: "Debe filtrar por ubicación"

@@ -183,7 +183,9 @@ Genera código seguro, legible, testeable y alineado con las convenciones modern
 ## Pruebas y fiabilidad
 - **Siempre** añadir pruebas unitarias para nuevas funcionalidades (funciones, clases, endpoints, componentes).
 - Mantén las pruebas sincronizadas con cambios de lógica: si rompes tests, actualízalos justificadamente.
-- Estructura las pruebas en una carpeta `/tests` que refleje la estructura del código.
+- Estructura las pruebas dentro de cada proyecto:
+  - **Backend**: `src/backend/tests/` que refleje la estructura del código backend
+  - **Frontend**: `src/frontend/__tests__/` que refleje la estructura del código frontend
   - Cada nueva funcionalidad debería incluir al menos:
     - 1 prueba de comportamiento esperado (happy path)
     - 1 prueba de caso límite

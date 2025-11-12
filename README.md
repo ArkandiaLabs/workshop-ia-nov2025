@@ -5,15 +5,17 @@ Proyecto full-stack para workshop de Inteligencia Artificial usando FastAPI (Bac
 ## 🏗️ Estructura del Proyecto
 
 ```
-workshop-ia-nov2025-prep/
+workshop-ia-nov2025/
 ├── src/
 │   ├── backend/          # API FastAPI (Python 3.12+, uv)
+│   │   └── tests/        # Pruebas unitarias backend
 │   └── frontend/         # App Next.js 16 (TypeScript, React 19)
+│       └── __tests__/    # Pruebas unitarias frontend
 ├── scripts/
 │   ├── database/         # Scripts SQL y dataset
 │   └── dev/              # Scripts de desarrollo (run-backend.sh, run-frontend.sh)
 ├── docs/adrs/            # Decisiones arquitectónicas
-└── tests/                # Pruebas unitarias e integración
+└── .specs/               # Especificaciones y planning
 ```
 
 ## 🚀 Quick Start
@@ -127,16 +129,21 @@ Ver [`.github/instructions/coding-rules.instructions.md`](.github/instructions/c
 
 ## 🧪 Testing
 
+**Estructura de tests:**
+- **Backend**: `src/backend/tests/` (mirrors backend structure)
+- **Frontend**: `src/frontend/__tests__/` (mirrors frontend structure)
+
 ### Backend
 ```bash
 cd src/backend
-uv run pytest
+uv run pytest                 # Run all tests
+uv run pytest --cov           # Run with coverage report
 ```
 
 ### Frontend
 ```bash
 cd src/frontend
-npm test
+npm test                      # Run all tests
 ```
 
 ## 📖 Documentación
