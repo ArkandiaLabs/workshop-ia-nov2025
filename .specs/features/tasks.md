@@ -91,37 +91,37 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 ## Fase 1: Backend
 
 ### Configuración Inicial del Proyecto
-- [ ] Verificar y actualizar dependencias en `pyproject.toml`
-    - [ ] Verificar dependencias existentes: fastapi, uvicorn, pydantic, pydantic-settings
-    - [ ] Añadir dependencia de Supabase: `uv add supabase`
-    - [ ] Añadir dependencia de python-dotenv: `uv add python-dotenv`
-    - [ ] Ejecutar `uv sync` para instalar/actualizar dependencias
-    - [ ] Verificar que `uv run python --version` retorna Python 3.12+
+- [x] Verificar y actualizar dependencias en `pyproject.toml`
+    - [x] Verificar dependencias existentes: fastapi, uvicorn, pydantic, pydantic-settings
+    - [x] Añadir dependencia de Supabase: `uv add supabase`
+    - [x] Añadir dependencia de python-dotenv: `uv add python-dotenv`
+    - [x] Ejecutar `uv sync` para instalar/actualizar dependencias
+    - [x] Verificar que `uv run python --version` retorna Python 3.12+
 
-- [ ] Verificar estructura de carpetas del backend
-    - [ ] Verificar existencia de `src/backend/api/` (routers de endpoints)
-    - [ ] Crear `src/backend/services/` (lógica de negocio)
-    - [ ] Crear `src/backend/repositories/` (acceso a datos con Supabase)
-    - [ ] Crear `src/backend/schemas/` (schemas Pydantic para request/response)
-    - [ ] Verificar `src/backend/core/` existe (ya tiene configuración)
-    - [ ] Crear archivos `__init__.py` en carpetas nuevas si no existen
+- [x] Verificar estructura de carpetas del backend
+    - [x] Verificar existencia de `src/backend/api/` (routers de endpoints)
+    - [x] Crear `src/backend/services/` (lógica de negocio)
+    - [x] Crear `src/backend/repositories/` (acceso a datos con Supabase)
+    - [x] Crear `src/backend/schemas/` (schemas Pydantic para request/response)
+    - [x] Verificar `src/backend/core/` existe (ya tiene configuración)
+    - [x] Crear archivos `__init__.py` en carpetas nuevas si no existen
 
 ### Configuración de Base de Datos (Supabase)
-- [ ] Actualizar configuración para incluir credenciales de Supabase
-    - [ ] Actualizar `Settings` class en `src/backend/main.py` para incluir:
+- [x] Actualizar configuración para incluir credenciales de Supabase
+    - [x] Actualizar `Settings` class en `src/backend/main.py` para incluir:
         - `supabase_url: str` - URL del proyecto Supabase
         - `supabase_key: str` - API Key de Supabase (service role key para backend)
-    - [ ] Crear archivo `.env.example` con template:
+    - [x] Crear archivo `.env.example` con template:
         ```
         SUPABASE_URL=https://your-project.supabase.co
         SUPABASE_KEY=your-service-role-key
         ENVIRONMENT=development
         CORS_ORIGINS=http://localhost:3000
         ```
-    - [ ] Verificar que `.env` está en `.gitignore`
+    - [x] Verificar que `.env` está en `.gitignore`
 
-- [ ] Crear cliente de Supabase
-    - [ ] Crear `src/backend/core/database.py`:
+- [x] Crear cliente de Supabase
+    - [x] Crear `src/backend/core/database.py`:
         - Importar `create_client` de supabase
         - Función `get_supabase_client()` que retorna cliente Supabase:
             ```python
@@ -139,39 +139,40 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
     - [ ] Nota: Supabase client no requiere manejo de sesiones async como SQLAlchemy
 
 ### Validación del Schema de Base de Datos
-- [ ] Revisar schema de base de datos existente
-    - [ ] Revisar `scripts/database/01-top-saas-db-creation.sql`
-    - [ ] Documentar estructura de tablas y campos:
+- [x] Revisar schema de base de datos existente
+    - [x] Revisar `scripts/database/01-top-saas-db-creation.sql`
+    - [x] Documentar estructura de tablas y campos:
         - `company`: id, name, products, founding_year, total_funding, arr, valuation, employees, g2_rating, industry_id, location_id
         - `industry`: id, name
         - `location`: id, city, state, country
         - `investor`: id, name
         - `company_investor`: company_id, investor_id
-    - [ ] Identificar claves foráneas y relaciones para uso en queries
+    - [x] Identificar claves foráneas y relaciones para uso en queries
 
-- [ ] Validar conexión a Supabase
-    - [ ] Crear script de validación `scripts/validate_supabase_connection.py`:
+- [x] Validar conexión a Supabase
+    - [x] Crear script de validación `scripts/validate_supabase_connection.py`:
         - Importar cliente Supabase de `core/database.py`
         - Ejecutar query simple: `client.table('company').select('id').limit(1).execute()`
         - Verificar que retorna datos exitosamente
         - Imprimir confirmación de conexión
-    - [ ] Ejecutar: `uv run python scripts/validate_supabase_connection.py`
-    - [ ] Verificar que se conecta correctamente a la base de datos
+    - [x] Ejecutar: `uv run python scripts/validate_supabase_connection.py`
+    - [x] Verificar que se conecta correctamente a la base de datos
 
 ### Schemas Pydantic
-- [ ] Crear schemas para Industry
-    - [ ] Crear `src/backend/schemas/industry.py`:
+### Schemas Pydantic
+- [x] Crear schemas para Industry
+    - [x] Crear `src/backend/schemas/industry.py`:
         - `IndustryRead(BaseModel)`: id (int), name (str)
         - `IndustryListResponse(BaseModel)`: industries (List[IndustryRead]), total (int)
 
-- [ ] Crear schemas para Location
-    - [ ] Crear `src/backend/schemas/location.py`:
+- [x] Crear schemas para Location
+    - [x] Crear `src/backend/schemas/location.py`:
         - `LocationRead(BaseModel)`: id (int), city (str), country (str), display_name (str)
         - Usar `@computed_field` o property para generar display_name: f"{city}, {country}"
         - `LocationListResponse(BaseModel)`: locations (List[LocationRead]), total (int)
 
-- [ ] Crear schemas para Company
-    - [ ] Crear `src/backend/schemas/company.py`:
+- [x] Crear schemas para Company
+    - [x] Crear `src/backend/schemas/company.py`:
         - `IndustryNested(BaseModel)`: id (int), name (str)
         - `LocationNested(BaseModel)`: id (int), city (str), country (str)
         - `CompanyRead(BaseModel)`:
@@ -196,8 +197,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
     - [ ] Verificar respuesta incluye: status, version, environment, timestamp
 
 ### Repository de Companies
-- [ ] Implementar CompanyRepository con Supabase
-    - [ ] Crear `src/backend/repositories/company_repository.py`:
+- [x] Implementar CompanyRepository con Supabase
+    - [x] Crear `src/backend/repositories/company_repository.py`:
         - Clase `CompanyRepository`:
             - Constructor: recibe `Client` (Supabase client)
             - Método `def get_all(industry_id: Optional[int] = None, location_id: Optional[int] = None) -> List[dict]`:
@@ -206,15 +207,15 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
                 - Si `location_id` no es None: añadir `.eq('location_id', location_id)`
                 - Ejecutar query: `response = query.execute()`
                 - Retornar: `response.data` (lista de diccionarios)
-    - [ ] Manejar casos edge:
+    - [x] Manejar casos edge:
         - Ambos filtros aplicados: encadenar múltiples `.eq()`
         - Sin filtros: retornar todas las empresas
         - Filtros con IDs inexistentes: Supabase retorna lista vacía automáticamente
         - Manejo de errores: capturar excepciones de Supabase y propagar o loggear
 
 ### Repository de Industries
-- [ ] Implementar IndustryRepository con Supabase
-    - [ ] Crear `src/backend/repositories/industry_repository.py`:
+- [x] Implementar IndustryRepository con Supabase
+    - [x] Crear `src/backend/repositories/industry_repository.py`:
         - Clase `IndustryRepository`:
             - Constructor: recibe `Client` (Supabase client)
             - Método `def get_all() -> List[dict]`:
@@ -223,8 +224,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
                 - Retornar: `response.data` (lista ordenada alfabéticamente por name)
 
 ### Repository de Locations
-- [ ] Implementar LocationRepository con Supabase
-    - [ ] Crear `src/backend/repositories/location_repository.py`:
+- [x] Implementar LocationRepository con Supabase
+    - [x] Crear `src/backend/repositories/location_repository.py`:
         - Clase `LocationRepository`:
             - Constructor: recibe `Client` (Supabase client)
             - Método `def get_all() -> List[dict]`:
@@ -233,8 +234,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
                 - Retornar: `response.data` (lista ordenada por país y luego ciudad)
 
 ### Service de Companies
-- [ ] Implementar CompanyService con Supabase
-    - [ ] Crear `src/backend/services/company_service.py`:
+- [x] Implementar CompanyService con Supabase
+    - [x] Crear `src/backend/services/company_service.py`:
         - Clase `CompanyService`:
             - Constructor: recibe `Client` (Supabase client)
             - Método `def list_companies(industry_id: Optional[int], location_id: Optional[int]) -> CompanyListResponse`:
@@ -248,8 +249,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
                 - Retornar `CompanyListResponse(companies=companies_read, total=len(companies_read), filters_applied=filters_applied)`
 
 ### Service de Industries
-- [ ] Implementar IndustryService con Supabase
-    - [ ] Crear `src/backend/services/industry_service.py`:
+- [x] Implementar IndustryService con Supabase
+    - [x] Crear `src/backend/services/industry_service.py`:
         - Clase `IndustryService`:
             - Constructor: recibe `Client` (Supabase client)
             - Método `def list_industries() -> IndustryListResponse`:
@@ -259,8 +260,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
                 - Retornar `IndustryListResponse(industries=industries_read, total=len(industries_read))`
 
 ### Service de Locations
-- [ ] Implementar LocationService con Supabase
-    - [ ] Crear `src/backend/services/location_service.py`:
+- [x] Implementar LocationService con Supabase
+    - [x] Crear `src/backend/services/location_service.py`:
         - Clase `LocationService`:
             - Constructor: recibe `Client` (Supabase client)
             - Método `def list_locations() -> LocationListResponse`:
@@ -270,8 +271,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
                 - Retornar `LocationListResponse(locations=locations_read, total=len(locations_read))`
 
 ### Router de Companies
-- [ ] Implementar router de empresas
-    - [ ] Crear `src/backend/api/companies.py`:
+- [x] Implementar router de empresas
+    - [x] Crear `src/backend/api/companies.py`:
         - Crear `APIRouter` con prefix="/api/v1/companies", tags=["companies"]
         - Implementar endpoint `GET /`:
             - Query params: `industry_id: Optional[int] = None`, `location_id: Optional[int] = None`
@@ -282,35 +283,35 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
                 - Retornar result
             - Response model: `CompanyListResponse`
             - Status code: 200
-    - [ ] Manejar errores:
+    - [x] Manejar errores:
         - Capturar excepciones de Supabase con try/except
         - Loggear error completo para debugging
         - Retornar `HTTPException(status_code=500, detail="Internal server error")`
-    - [ ] Registrar router en `main.py`
+    - [x] Registrar router en `main.py`
 
 ### Router de Industries
-- [ ] Implementar router de industrias
-    - [ ] Crear `src/backend/api/industries.py`:
+- [x] Implementar router de industrias
+    - [x] Crear `src/backend/api/industries.py`:
         - Crear `APIRouter` con prefix="/api/v1/industries", tags=["industries"]
         - Implementar endpoint `GET /`:
             - Dependency: `client: Client = Depends(get_db)` (obtiene cliente Supabase)
             - Lógica: llamar `IndustryService(client).list_industries()`
             - Response model: `IndustryListResponse`
             - Status code: 200
-    - [ ] Manejar errores similares a companies endpoint
-    - [ ] Registrar router en `main.py`
+    - [x] Manejar errores similares a companies endpoint
+    - [x] Registrar router en `main.py`
 
 ### Router de Locations
-- [ ] Implementar router de ubicaciones
-    - [ ] Crear `src/backend/api/locations.py`:
+- [x] Implementar router de ubicaciones
+    - [x] Crear `src/backend/api/locations.py`:
         - Crear `APIRouter` con prefix="/api/v1/locations", tags=["locations"]
         - Implementar endpoint `GET /`:
             - Dependency: `client: Client = Depends(get_db)` (obtiene cliente Supabase)
             - Lógica: llamar `LocationService(client).list_locations()`
             - Response model: `LocationListResponse`
             - Status code: 200
-    - [ ] Manejar errores similares a companies endpoint
-    - [ ] Registrar router en `main.py`
+    - [x] Manejar errores similares a companies endpoint
+    - [x] Registrar router en `main.py`
 
 ### Configuración de CORS
 - [ ] Verificar configuración de CORS existente

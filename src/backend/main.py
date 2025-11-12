@@ -5,25 +5,12 @@ from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from backend.api.companies import router as companies_router
 from backend.api.health import router as health_router
-
-
-class Settings(BaseSettings):
-    """Application settings."""
-
-    model_config = SettingsConfigDict(env_file=".env", case_sensitive=False)
-
-    app_name: str = "Top SaaS Backend"
-    app_version: str = "1.0.0"
-    environment: str = "development"
-    host: str = "0.0.0.0"
-    port: int = 8000
-    cors_origins: str = "http://localhost:3000"
-
-
-settings = Settings()
+from backend.api.industries import router as industries_router
+from backend.api.locations import router as locations_router
+from backend.core.config import settings
 
 
 @asynccontextmanager
@@ -52,3 +39,6 @@ app.add_middleware(
 
 # Register routers
 app.include_router(health_router, prefix="/api/v1", tags=["health"])
+app.include_router(companies_router)
+app.include_router(industries_router)
+app.include_router(locations_router)
