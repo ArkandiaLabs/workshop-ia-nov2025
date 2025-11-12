@@ -1,6 +1,7 @@
 """Repository for Location data access using Supabase."""
 
 import logging
+from typing import Any
 
 from supabase import Client
 
@@ -18,7 +19,7 @@ class LocationRepository:
         """
         self.client = client
 
-    def get_all(self) -> list[dict]:
+    def get_all(self) -> list[Any]:
         """Get all locations ordered by country and city.
 
         Returns:

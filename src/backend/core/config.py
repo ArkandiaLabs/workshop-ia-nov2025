@@ -16,8 +16,8 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000"
 
     # Supabase configuration
-    supabase_url: str
-    supabase_key: str
+    supabase_url: str = ""
+    supabase_key: str = ""
 
 
 settings = Settings()

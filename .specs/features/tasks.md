@@ -385,24 +385,24 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 ### Tests Unitarios - Endpoints
 
 #### Configuración de tests
-- [ ] Configurar pytest para FastAPI con Supabase
-    - [ ] Crear `src/backend/tests/conftest.py`:
+- [x] Configurar pytest para FastAPI con Supabase
+    - [x] Crear `src/backend/tests/conftest.py`:
         - Fixture `mock_supabase_client`: retorna mock de Supabase Client
         - Fixture `client`: crea `TestClient` de FastAPI
         - Fixture `override_get_db`: sobreescribe dependency `get_db` con mock_supabase_client
         - Configurar app.dependency_overrides en fixture de client
 
 #### Tests de Health Endpoint
-- [ ] Verificar/actualizar tests para health endpoint
-    - [ ] Crear o verificar `src/backend/tests/api/test_health.py`:
+- [x] Verificar/actualizar tests para health endpoint
+    - [x] Crear o verificar `src/backend/tests/api/test_health.py`:
         - Test: `test_health_check()`:
             - Request: `GET /api/v1/health`
             - Verificar status code: 200
             - Verificar response body incluye: status="healthy", version, environment, timestamp
 
 #### Tests de Companies Endpoint
-- [ ] Crear tests para companies endpoint
-    - [ ] Crear `src/backend/tests/api/test_companies.py`:
+- [x] Crear tests para companies endpoint
+    - [x] Crear `src/backend/tests/api/test_companies.py`:
         - Setup: Mock de `get_db` dependency que retorna mock de Supabase Client
         - Test: `test_get_companies_without_filters()`:
             - Request: `GET /api/v1/companies`
@@ -430,8 +430,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
             - Verificar mensaje de error
 
 #### Tests de Industries Endpoint
-- [ ] Crear tests para industries endpoint
-    - [ ] Crear `src/backend/tests/api/test_industries.py`:
+- [x] Crear tests para industries endpoint
+    - [x] Crear `src/backend/tests/api/test_industries.py`:
         - Setup: Mock de `get_db` dependency que retorna mock de Supabase Client
         - Test: `test_get_industries()`:
             - Request: `GET /api/v1/industries`
@@ -443,8 +443,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
             - Verificar status code: 500
 
 #### Tests de Locations Endpoint
-- [ ] Crear tests para locations endpoint
-    - [ ] Crear `src/backend/tests/api/test_locations.py`:
+- [x] Crear tests para locations endpoint
+    - [x] Crear `src/backend/tests/api/test_locations.py`:
         - Setup: Mock de `get_db` dependency que retorna mock de Supabase Client
         - Test: `test_get_locations()`:
             - Request: `GET /api/v1/locations`
@@ -457,11 +457,11 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
             - Verificar status code: 500
 
 ### Verificación de Coverage
-- [ ] Configurar pytest-cov
-    - [ ] Añadir `pytest-cov` a dependencias en `pyproject.toml`
-    - [ ] Ejecutar: `uv run pytest --cov=src/backend --cov-report=html --cov-report=term`
-    - [ ] Verificar que coverage es >= 60%
-    - [ ] Revisar reporte HTML en `htmlcov/index.html`
+- [x] Configurar pytest-cov
+    - [x] Añadir `pytest-cov` a dependencias en `pyproject.toml`
+    - [x] Ejecutar: `uv run pytest --cov=src/backend --cov-report=html --cov-report=term`
+    - [x] Verificar que coverage es >= 60%
+    - [x] Revisar reporte HTML en `htmlcov/index.html`
 
 ### Validación de Calidad de Código
 - [x] Ejecutar linting y formateo
@@ -470,9 +470,9 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
     - [x] Ejecutar: `uv run ruff format src/backend`
     - [x] Verificar que todos los archivos están formateados
 
-- [ ] Ejecutar type checking
-    - [ ] Añadir `mypy` a dependencias: `uv add --dev mypy`
-    - [ ] Crear `mypy.ini` con configuración:
+- [x] Ejecutar type checking
+    - [x] Añadir `mypy` a dependencias: `uv add --dev mypy`
+    - [x] Crear `mypy.ini` con configuración:
         ```ini
         [mypy]
         python_version = 3.12
@@ -480,12 +480,12 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
         warn_unused_configs = True
         disallow_untyped_defs = True
         ```
-    - [ ] Ejecutar: `uv run mypy src/backend`
-    - [ ] Corregir errores de tipos
+    - [x] Ejecutar: `uv run mypy src/backend`
+    - [x] Corregir errores de tipos
 
 ### Documentación del Backend
-- [ ] Actualizar README con instrucciones de backend
-    - [ ] Sección "Backend Setup":
+- [x] Actualizar README con instrucciones de backend
+    - [x] Sección "Backend Setup":
         - Requisitos: Python 3.12+, `uv` instalado, cuenta de Supabase
         - Instalación de dependencias: `cd src/backend && uv sync`
         - Configuración de `.env`:
@@ -493,14 +493,14 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
             - Añadir `SUPABASE_URL` (desde dashboard de Supabase)
             - Añadir `SUPABASE_KEY` (service role key desde Supabase)
         - Comando de desarrollo: `uv run fastapi dev` o `./scripts/dev/run-backend.sh`
-    - [ ] Sección "Backend Testing":
+    - [x] Sección "Backend Testing":
         - Comando de tests: `uv run pytest`
         - Comando de coverage: `uv run pytest --cov`
         - Nota: Tests usan mocks de Supabase, no requieren conexión real
-    - [ ] Sección "Backend API Documentation":
+    - [x] Sección "Backend API Documentation":
         - URL de OpenAPI/Swagger: `http://localhost:8000/docs`
         - URL de ReDoc: `http://localhost:8000/redoc`
-    - [ ] Sección "Backend Architecture":
+    - [x] Sección "Backend Architecture":
         - Mención de uso de Supabase Python client
         - Patrón Repository → Service → Router
         - No usar ORM, acceso directo vía Supabase API

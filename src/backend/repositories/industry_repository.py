@@ -1,6 +1,7 @@
 """Repository for Industry data access using Supabase."""
 
 import logging
+from typing import Any
 
 from supabase import Client
 
@@ -18,7 +19,7 @@ class IndustryRepository:
         """
         self.client = client
 
-    def get_all(self) -> list[dict]:
+    def get_all(self) -> list[Any]:
         """Get all industries ordered alphabetically by name.
 
         Returns:

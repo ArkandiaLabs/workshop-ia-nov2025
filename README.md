@@ -78,14 +78,307 @@ Abre http://localhost:3000 y verifica que el componente "Backend Status" muestre
 | Ruff + MyPy (calidad) | Tailwind CSS |
 | Uvicorn (servidor ASGI) | SWR (data fetching) |
 
-## 📋 Comandos Útiles
+## � Backend Setup
+
+### Requisitos
+- Python 3.12+
+- `uv` instalado ([instrucciones](https://docs.astral.sh/uv/))
+- Cuenta de Supabase (para credenciales de base de datos)
+
+### Instalación
+
+1. **Navegar a carpeta backend:**
+   ```bash
+   cd src/backend
+   ```
+
+2. **Instalar dependencias:**
+   ```bash
+   uv sync
+   ```
+
+3. **Configurar variables de entorno:**
+   ```bash
+   cp .env.example .env
+   ```
+   Editar `.env` e incluir:
+   ```env
+   SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_KEY=your-service-role-key
+   ```
+   (Obtener credenciales del dashboard de Supabase)
+
+4. **Iniciar servidor de desarrollo:**
+   ```bash
+   ./scripts/dev/run-backend.sh
+   # o manualmente:
+   uv run fastapi dev
+   ```
+   Servidor disponible en: **http://localhost:8000**
+
+### Estructura Backend
+
+```
+src/backend/
+├── api/              # Routers de endpoints (REST)
+├── services/         # Lógica de negocio
+├── repositories/     # Acceso a datos (Supabase)
+├── schemas/          # Validación (Pydantic)
+├── core/             # Configuración, database
+├── tests/            # Pruebas unitarias
+└── main.py           # Punto de entrada FastAPI
+```
+
+### Arquitectura Backend
+
+**Patrón por capas:**
+```
+HTTP Request
+    ↓
+Routers (api/) → valida query params
+    ↓
+Services (services/) → lógica de negocio
+    ↓
+Repositories (repositories/) → consultas a Supabase
+    ↓
+Schemas (schemas/) → transformación de datos
+    ↓
+HTTP Response
+```
+
+**Base de datos:** PostgreSQL (Supabase)
+- Sin ORM: usamos Supabase Python client directamente
+- Queries simples y eficientes
+- Fácil testing con mocks
+
+## 🧪 Backend Testing
+
+### Ejecutar tests
+
+```bash
+cd src/backend
+
+# Todos los tests
+uv run pytest
+
+# Con reporte de cobertura
+uv run pytest --cov=backend --cov-report=html
+
+# Tests específicos
+uv run pytest tests/api/test_companies.py -v
+```
+
+### Estructura de tests
+
+```
+src/backend/tests/
+├── conftest.py              # Fixtures compartidas (mock clients, TestClient)
+├── api/
+│   ├── test_health.py       # Tests endpoint health
+│   ├── test_companies.py    # Tests CRUD companies
+│   ├── test_industries.py   # Tests listar industries
+│   └── test_locations.py    # Tests listar locations
+└── services/                # Tests de servicios (si es necesario)
+```
+
+### Cobertura de tests
+
+**Requisito mínimo:** 60%  
+**Actual:** 99% ✅
+
+Ejecutar:
+```bash
+uv run pytest --cov=backend --cov-report=html
+# Abre: htmlcov/index.html
+```
+
+### Fixtures de test
+
+**conftest.py proporciona:**
+- `mock_supabase_client`: Mock de cliente Supabase
+- `client`: TestClient de FastAPI con dependencias sobrescritas
+- Limpieza automática después de cada test
+
+Ejemplo de test:
+```python
+def test_get_companies(client: TestClient, mock_supabase_client: MagicMock) -> None:
+    # Mock del repositorio
+    mock_query = MagicMock()
+    mock_query.select.return_value = mock_query
+    mock_query.execute.return_value = MagicMock(data=[...])
+    mock_supabase_client.table.return_value = mock_query
+    
+    # Request HTTP
+    response = client.get("/api/v1/companies")
+    
+    # Assertions
+    assert response.status_code == 200
+```
+
+## 📖 Backend API Documentation
+
+### OpenAPI/Swagger
+
+**URL:** http://localhost:8000/docs
+
+Todos los endpoints están documentados automáticamente con:
+- Descripción y propósito
+- Parámetros (query, path, body)
+- Esquemas de request/response
+- Ejemplo de respuesta
+
+### ReDoc
+
+**URL:** http://localhost:8000/redoc
+
+Documentación interactiva alternativa.
+
+### Health Check
+
+**Endpoint:** `GET /api/v1/health`
+
+**Respuesta:**
+```json
+{
+  "status": "healthy",
+  "version": "1.0.0",
+  "environment": "development",
+  "timestamp": "2024-11-11T12:00:00Z"
+}
+```
+
+### Endpoints de Datos
+
+#### Get Companies
+```
+GET /api/v1/companies?industry_id=1&location_id=2
+```
+
+**Query params:**
+- `industry_id` (opcional): Filtrar por industria
+- `location_id` (opcional): Filtrar por ubicación
+
+**Response:**
+```json
+{
+  "companies": [
+    {
+      "id": 1,
+      "name": "Company Name",
+      "industry": { "id": 1, "name": "Software" },
+      "location": { "id": 1, "city": "San Francisco", "country": "USA" },
+      "products": "Product A, Product B",
+      "founding_year": 2020,
+      "total_funding": 1000000,
+      "arr": 100000,
+      "valuation": 5000000,
+      "employees": 50,
+      "g2_rating": 4.8
+    }
+  ],
+  "total": 100,
+  "filters_applied": {
+    "industry_id": 1,
+    "location_id": 2
+  }
+}
+```
+
+#### Get Industries
+```
+GET /api/v1/industries
+```
+
+**Response:**
+```json
+{
+  "industries": [
+    { "id": 1, "name": "Software" },
+    { "id": 2, "name": "SaaS" }
+  ],
+  "total": 42
+}
+```
+
+#### Get Locations
+```
+GET /api/v1/locations
+```
+
+**Response:**
+```json
+{
+  "locations": [
+    {
+      "id": 1,
+      "city": "San Francisco",
+      "country": "USA",
+      "display_name": "San Francisco, USA"
+    }
+  ],
+  "total": 50
+}
+```
+
+## ✅ Validación de Calidad de Código
+
+### Linting y Formateo
+
+```bash
+cd src/backend
+
+# Formateo automático
+uv run ruff format .
+
+# Linting (revisar issues)
+uv run ruff check .
+```
+
+### Type Checking
+
+```bash
+cd src/backend
+
+# Verificar tipos con mypy
+uv run mypy .
+```
+
+**Configuración:** `mypy.ini` (strict mode habilitado)
+
+### Pre-commit Checks
+
+Antes de hacer commit, ejecutar:
+```bash
+cd src/backend
+uv run ruff format .
+uv run ruff check .
+uv run mypy .
+uv run pytest
+```
+
+---
+
+## �📋 Comandos Útiles
 
 ### Backend (desde `src/backend/`)
 ```bash
-uv run ruff format .          # Formateo
-uv run ruff check .           # Linting
-uv run mypy .                 # Type checking
-uv run pytest                 # Tests
+# Desarrollo
+uv run fastapi dev                  # Iniciar servidor
+
+# Formateo y linting
+uv run ruff format .                # Formateo automático
+uv run ruff check .                 # Linting
+uv run mypy .                       # Type checking
+
+# Tests
+uv run pytest                       # Todos los tests
+uv run pytest -v                    # Verbose
+uv run pytest --cov                 # Con cobertura
+uv run pytest tests/api/test_companies.py  # Test específico
+
+# Dependencias
+uv add <package>                    # Instalar paquete
+uv sync                             # Sincronizar ambiente
 ```
 
 ### Frontend (desde `src/frontend/`)

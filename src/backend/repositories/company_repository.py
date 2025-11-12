@@ -1,6 +1,7 @@
 """Repository for Company data access using Supabase."""
 
 import logging
+from typing import Any
 
 from supabase import Client
 
@@ -18,7 +19,7 @@ class CompanyRepository:
         """
         self.client = client
 
-    def get_all(self, industry_id: int | None = None, location_id: int | None = None) -> list[dict]:
+    def get_all(self, industry_id: int | None = None, location_id: int | None = None) -> list[Any]:
         """Get all companies with optional filters.
 
         Args:
