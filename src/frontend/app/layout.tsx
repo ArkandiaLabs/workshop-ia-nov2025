@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Top SaaS Workshop",
-  description: "Workshop IA - Top SaaS Backend and Frontend Integration",
+  title: "Top SaaS Analytics - Dashboard de Empresas SaaS",
+  description:
+    "Dashboard interactivo de análisis de las 100 empresas SaaS más destacadas. Filtrado por industria y ubicación.",
 };
 
 export default function RootLayout({
@@ -23,9 +24,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 min-h-screen`}
       >
         {children}
       </body>

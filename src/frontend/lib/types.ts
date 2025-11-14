@@ -49,7 +49,7 @@ export interface Company {
 export interface CompanyListResponse {
   companies: Company[];
   total: number;
-  filters_applied: Record<string, any>;
+  filters_applied: Record<string, number | null | undefined>;
 }
 
 /**

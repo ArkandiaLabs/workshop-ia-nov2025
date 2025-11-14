@@ -575,8 +575,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 ### Componentes UI Base
 
 #### Componente Select
-- [ ] Crear componente Select
-    - [ ] Crear `src/frontend/components/ui/Select.tsx`:
+- [x] Crear componente Select
+    - [x] Crear `src/frontend/components/ui/Select.tsx`:
         - Props interface:
             - options: Array<{ value: string | number, label: string }>
             - value: string | number | undefined
@@ -591,16 +591,16 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
         - Accesibilidad: aria-label
 
 #### Componente LoadingSpinner
-- [ ] Crear componente LoadingSpinner
-    - [ ] Crear `src/frontend/components/ui/LoadingSpinner.tsx`:
+- [x] Crear componente LoadingSpinner
+    - [x] Crear `src/frontend/components/ui/LoadingSpinner.tsx`:
         - Renderizar `<div>` con animación de spinner usando Tailwind
         - Clases: `animate-spin rounded-full border-4 border-gray-200 border-t-blue-600`
         - Props: size (opcional): "sm" | "md" | "lg"
         - Centrar spinner: flex, items-center, justify-center
 
 #### Componente Table (base)
-- [ ] Crear componente Table base
-    - [ ] Crear `src/frontend/components/ui/Table.tsx`:
+- [x] Crear componente Table base
+    - [x] Crear `src/frontend/components/ui/Table.tsx`:
         - Componente `Table`: wrapper con overflow-x-auto
         - Componente `TableHeader`: thead con bg-gray-50, sticky top-0
         - Componente `TableBody`: tbody
@@ -612,8 +612,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 ### Custom Hooks
 
 #### Hook useCompanies
-- [ ] Crear hook useCompanies
-    - [ ] Crear `src/frontend/hooks/useCompanies.ts`:
+- [x] Crear hook useCompanies
+    - [x] Crear `src/frontend/hooks/useCompanies.ts`:
         - Parámetros: `industryId?: number`, `locationId?: number`
         - State:
             - `companies: Company[] | null`
@@ -629,8 +629,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
         - Retornar: `{ companies, loading, error, refetch }`
 
 #### Hook useIndustries
-- [ ] Crear hook useIndustries
-    - [ ] Crear `src/frontend/hooks/useIndustries.ts`:
+- [x] Crear hook useIndustries
+    - [x] Crear `src/frontend/hooks/useIndustries.ts`:
         - State: `industries: Industry[] | null`, `loading: boolean`, `error: Error | null`
         - useEffect (solo al montar):
             - Llamar `fetchAPI<IndustryListResponse>('/api/v1/industries')`
@@ -638,15 +638,15 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
         - Retornar: `{ industries, loading, error }`
 
 #### Hook useLocations
-- [ ] Crear hook useLocations
-    - [ ] Crear `src/frontend/hooks/useLocations.ts`:
+- [x] Crear hook useLocations
+    - [x] Crear `src/frontend/hooks/useLocations.ts`:
         - Similar a useIndustries
         - Llamar `fetchAPI<LocationListResponse>('/api/v1/locations')`
         - Retornar: `{ locations, loading, error }`
 
 ### Componente de Filtros
-- [ ] Crear componente CompanyFilters
-    - [ ] Crear `src/frontend/components/CompanyFilters.tsx`:
+- [x] Crear componente CompanyFilters
+    - [x] Crear `src/frontend/components/CompanyFilters.tsx`:
         - Usar 'use client' directive
         - Props:
             - onFilterChange: (filters: { industryId?: number, locationId?: number }) => void
@@ -663,8 +663,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
         - Loading state: mostrar LoadingSpinner mientras cargan industrias/ubicaciones
 
 ### Componente de Tabla de Empresas
-- [ ] Crear componente CompanyTable
-    - [ ] Crear `src/frontend/components/CompanyTable.tsx`:
+- [x] Crear componente CompanyTable
+    - [x] Crear `src/frontend/components/CompanyTable.tsx`:
         - Usar 'use client' directive
         - Props:
             - companies: Company[]
@@ -704,45 +704,45 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
             - sticky header con z-index
 
 ### Componente BackendStatus
-- [ ] Crear componente BackendStatus
-    - [ ] Crear `src/frontend/components/BackendStatus.tsx`:
-        - Usar 'use client' directive
-        - State: `health: HealthResponse | null`, `connected: boolean`
-        - useEffect:
-            - Función `checkHealth()` que llama `fetchAPI<HealthResponse>('/api/v1/health')`
-            - setInterval cada 30 segundos para re-check
-            - cleanup: clearInterval
-        - Renderizar indicador:
-            - Dot verde si connected, rojo si no
-            - Texto: "Backend: {status}" o "Backend: Disconnected"
-            - Versión y environment si está conectado
-        - Styling: posición fixed bottom-right o en footer
+- [x] Crear componente BackendStatus
+    - [x] Crear `src/frontend/components/BackendStatus.tsx`:
+        - [x] Usar 'use client' directive
+        - [x] State: `health: HealthResponse | null`, `connected: boolean`
+        - [x] useEffect:
+            - [x] Función `checkHealth()` que llama `fetchAPI<HealthResponse>('/api/v1/health')`
+            - [x] setInterval cada 30 segundos para re-check
+            - [x] cleanup: clearInterval
+        - [x] Renderizar indicador:
+            - [x] Dot verde si connected, rojo si no
+            - [x] Texto: "Backend: {status}" o "Backend: Disconnected"
+            - [x] Versión y environment si está conectado
+        - [x] Styling: posición fixed bottom-right o en footer
 
 ### Página Principal
-- [ ] Actualizar layout principal
-    - [ ] Actualizar `src/frontend/app/layout.tsx`:
-        - Metadata: title="Top SaaS Analytics", description="Dashboard de análisis de empresas SaaS"
-        - HTML lang="es"
-        - Body con Tailwind classes: bg-gray-50, min-h-screen
-        - Importar globals.css
+- [x] Actualizar layout principal
+    - [x] Actualizar `src/frontend/app/layout.tsx`:
+        - [x] Metadata: title="Top SaaS Analytics", description="Dashboard de análisis de empresas SaaS"
+        - [x] HTML lang="es"
+        - [x] Body con Tailwind classes: bg-gray-50, min-h-screen
+        - [x] Importar globals.css
 
-- [ ] Implementar página principal
-    - [ ] Actualizar `src/frontend/app/page.tsx`:
-        - Usar 'use client' directive
-        - State:
-            - selectedIndustryId: number | undefined
-            - selectedLocationId: number | undefined
-        - Hook: `const { companies, loading, error, refetch } = useCompanies(selectedIndustryId, selectedLocationId)`
-        - Handler: `handleFilterChange(filters)`:
-            - Actualizar state con nuevos filtros
-            - Hook useCompanies se recargará automáticamente
-        - Layout:
-            - Header: título "Top SaaS Analytics" con logo placeholder
-            - Section de filtros: `<CompanyFilters onFilterChange={handleFilterChange} />`
-            - Indicador de resultados: "Mostrando {companies?.length || 0} empresas"
-            - Section de tabla: `<CompanyTable companies={companies || []} loading={loading} error={error} />`
-            - Footer con `<BackendStatus />`
-        - Container: max-w-7xl, mx-auto, padding
+- [x] Implementar página principal
+    - [x] Actualizar `src/frontend/app/page.tsx`:
+        - [x] Usar 'use client' directive
+        - [x] State:
+            - [x] selectedIndustryId: number | undefined
+            - [x] selectedLocationId: number | undefined
+        - [x] Hook: `const { companies, loading, error, refetch } = useCompanies(selectedIndustryId, selectedLocationId)`
+        - [x] Handler: `handleFilterChange(filters)`:
+            - [x] Actualizar state con nuevos filtros
+            - [x] Hook useCompanies se recargará automáticamente
+        - [x] Layout:
+            - [x] Header: título "Top SaaS Analytics" con logo placeholder
+            - [x] Section de filtros: `<CompanyFilters onFilterChange={handleFilterChange} />`
+            - [x] Indicador de resultados: "Mostrando {companies?.length || 0} empresas"
+            - [x] Section de tabla: `<CompanyTable companies={companies || []} loading={loading} error={error} />`
+            - [x] Footer con `<BackendStatus />`
+        - [x] Container: max-w-7xl, mx-auto, padding
 
 ### Variables de Entorno
 - [ ] Configurar variables de entorno del frontend
