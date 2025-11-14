@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { CompanyFilters, CompanyTable, BackendStatus } from "@/components";
 import { useCompanies } from "@/hooks";
+
+// Constant for items per page
+const ITEMS_PER_PAGE = 15;
 
 /**
  * Main Page Component
@@ -11,12 +14,13 @@ import { useCompanies } from "@/hooks";
  * - Header with title and logo placeholder
  * - Filter section (industry and location)
  * - Results indicator showing number of companies
- * - Company table with all data
+ * - Company table with paginated data (15 items per page)
  * - Footer with backend status
  */
 export default function Home() {
   const [selectedIndustryId, setSelectedIndustryId] = useState<number | undefined>(undefined);
   const [selectedLocationId, setSelectedLocationId] = useState<number | undefined>(undefined);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   // Fetch companies with current filters
   const { companies, loading, error } = useCompanies({
@@ -24,14 +28,30 @@ export default function Home() {
     locationId: selectedLocationId,
   });
 
+  // Calculate paginated companies
+  const paginatedCompanies = useMemo(() => {
+    if (!companies) return [];
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return companies.slice(startIndex, endIndex);
+  }, [companies, currentPage]);
+
   /**
    * Handler for filter changes
-   * Updates state which triggers automatic refetch via useCompanies hook
+   * Updates state and resets to page 1
    */
-  const handleFilterChange = (filters: { industryId?: number; locationId?: number }) => {
+  const handleFilterChange = useCallback((filters: { industryId?: number; locationId?: number }) => {
     setSelectedIndustryId(filters.industryId);
     setSelectedLocationId(filters.locationId);
-  };
+    setCurrentPage(1); // Reset to first page when filters change
+  }, []);
+
+  /**
+   * Handler for page changes
+   */
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -122,7 +142,15 @@ export default function Home() {
 
         {/* Company Table Section */}
         <section className="bg-white rounded-lg shadow-sm border border-gray-200">
-          <CompanyTable companies={companies || []} loading={loading} error={error} />
+          <CompanyTable
+            companies={paginatedCompanies}
+            loading={loading}
+            error={error}
+            currentPage={currentPage}
+            itemsPerPage={ITEMS_PER_PAGE}
+            totalItems={companies?.length || 0}
+            onPageChange={handlePageChange}
+          />
         </section>
       </main>
 

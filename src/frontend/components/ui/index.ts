@@ -9,6 +9,9 @@ export type { SelectProps, SelectOption } from "./Select";
 export { LoadingSpinner } from "./LoadingSpinner";
 export type { LoadingSpinnerProps } from "./LoadingSpinner";
 
+export { Pagination } from "./Pagination";
+export type { PaginationProps } from "./Pagination";
+
 export {
   Table,
   TableHeader,

@@ -10,6 +10,7 @@ import {
   TableCell,
 } from "./ui/Table";
 import { LoadingSpinner } from "./ui/LoadingSpinner";
+import { Pagination } from "./ui/Pagination";
 import { formatCurrency, truncateText } from "@/lib/utils";
 import type { Company } from "@/lib/types";
 
@@ -20,21 +21,37 @@ export interface CompanyTableProps {
   companies: Company[];
   loading: boolean;
   error: Error | null;
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+  onPageChange: (page: number) => void;
 }
 
 /**
  * Company table component displaying SaaS companies data
- * Shows a responsive table with sticky header and hover effects
+ * Shows a responsive table with sticky header, hover effects, and pagination
  * Matches the UI design with proper formatting for currency and text
  * 
  * @example
  * <CompanyTable 
  *   companies={companies} 
  *   loading={false} 
- *   error={null} 
+ *   error={null}
+ *   currentPage={1}
+ *   itemsPerPage={15}
+ *   totalItems={100}
+ *   onPageChange={(page) => setCurrentPage(page)}
  * />
  */
-export function CompanyTable({ companies, loading, error }: CompanyTableProps) {
+export function CompanyTable({
+  companies,
+  loading,
+  error,
+  currentPage,
+  itemsPerPage,
+  totalItems,
+  onPageChange,
+}: CompanyTableProps) {
   // Loading state
   if (loading) {
     return (
@@ -173,14 +190,13 @@ export function CompanyTable({ companies, loading, error }: CompanyTableProps) {
         </Table>
       </div>
 
-      {/* Results summary footer */}
-      <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-        <p className="text-sm text-gray-600">
-          Mostrando <span className="font-medium text-gray-900">1</span> a{" "}
-          <span className="font-medium text-gray-900">{companies.length}</span> de{" "}
-          <span className="font-medium text-gray-900">{companies.length}</span> empresas
-        </p>
-      </div>
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 }
