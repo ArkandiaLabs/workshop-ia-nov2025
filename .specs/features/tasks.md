@@ -510,17 +510,17 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
 ## Fase 2: Frontend
 
 ### Configuración Inicial del Proyecto
-- [ ] Verificar configuración de Next.js
-    - [ ] Revisar `src/frontend/package.json`:
+- [x] Verificar configuración de Next.js
+    - [x] Revisar `src/frontend/package.json`:
         - Verificar dependencias: next, react, react-dom, typescript, tailwindcss
-    - [ ] Revisar `src/frontend/tsconfig.json`:
+    - [x] Revisar `src/frontend/tsconfig.json`:
         - Verificar paths alias: `@/*` → `./`
         - Verificar strict mode habilitado
-    - [ ] Ejecutar `npm install` si es necesario
+    - [x] Ejecutar `npm install` si es necesario
 
 ### Tipos TypeScript
-- [ ] Crear definiciones de tipos
-    - [ ] Crear `src/frontend/lib/types.ts`:
+- [x] Crear definiciones de tipos
+    - [x] Crear `src/frontend/lib/types.ts`:
         - Interface `Industry`: id (number), name (string)
         - Interface `Location`: id (number), city (string), country (string), display_name (string)
         - Interface `Company`:
@@ -544,8 +544,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
         - Interface `HealthResponse`: status (string), version (string), environment (string)
 
 ### Cliente API
-- [ ] Implementar cliente API base
-    - [ ] Crear `src/frontend/lib/api.ts`:
+- [x] Implementar cliente API base
+    - [x] Crear `src/frontend/lib/api.ts`:
         - Definir `API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'`
         - Función `async fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T>`:
             - Construir URL completa: `${API_BASE_URL}${endpoint}`
@@ -556,8 +556,8 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
         - Manejo de errores: crear clase `APIError extends Error` con status code
 
 ### Funciones de Utilidad
-- [ ] Implementar funciones de formateo
-    - [ ] Crear `src/frontend/lib/utils.ts`:
+- [x] Implementar funciones de formateo
+    - [x] Crear `src/frontend/lib/utils.ts`:
         - Función `formatCurrency(value: number | null): string`:
             - Si value es null/undefined: retornar "N/A"
             - Si value >= 1_000_000_000_000 (trillion): retornar "$X.XT"
@@ -565,7 +565,7 @@ Este documento desglosa el trabajo definido en `planning.md` en tareas accionabl
             - Si value >= 1_000_000 (million): retornar "$X.XM"
             - Si value >= 1_000 (thousand): retornar "$X.XK"
             - Sino: retornar "$X,XXX"
-        - Función `formatLocation(city: string, country: string): string`:
+        - Función `formatCurrency(city: string, country: string): string`:
             - Retornar `${city}, ${country}`
         - Función `truncateText(text: string, maxLength: number): string`:
             - Si text.length <= maxLength: retornar text
