@@ -1,0 +1,182 @@
+openapi: 3.1.0
+info:
+  title: Industry Statistics API
+  description: Endpoint para obtener estadísticas de empresas agrupadas por industria
+  version: 1.0.0
+  contact:
+    name: Workshop IA Team
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+  - url: https://api.production.com
+    description: Production server (placeholder)
+
+paths:
+  /api/v1/industries/stats:
+    get:
+      operationId: getIndustryStats
+      summary: Get industry statistics
+      description: |
+        Returns aggregated statistics of companies grouped by industry.
+
+        - Returns list of industries with company count and percentage
+        - Sorted by company_count descending (most companies first)
+        - Optionally filter by location_id to see stats for specific location
+        - Only includes industries with at least 1 company
+        - NO caching - always returns real-time data
+
+      tags:
+        - Industries
+
+      parameters:
+        - name: location_id
+          in: query
+          required: false
+          description: Filter companies by location before aggregating by industry
+          schema:
+            type: integer
+            minimum: 1
+          example: 5
+
+      responses:
+        "200":
+          description: Successful response with industry statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IndustryStatsResponse"
+              examples:
+                multipleIndustries:
+                  summary: Multiple industries
+                  value:
+                    stats:
+                      - id: 1
+                        name: Software
+                        company_count: 42
+                        percentage: 35.25
+                      - id: 2
+                        name: E-commerce
+                        company_count: 30
+                        percentage: 25.21
+                      - id: 3
+                        name: Fintech
+                        company_count: 28
+                        percentage: 23.53
+                      - id: 4
+                        name: Healthcare
+                        company_count: 19
+                        percentage: 15.97
+                    total_companies: 119
+                    total_industries: 4
+
+                noData:
+                  summary: No companies found
+                  value:
+                    stats: []
+                    total_companies: 0
+                    total_industries: 0
+
+                filtered:
+                  summary: Filtered by location
+                  value:
+                    stats:
+                      - id: 3
+                        name: Fintech
+                        company_count: 15
+                        percentage: 60.0
+                      - id: 7
+                        name: Healthcare
+                        company_count: 10
+                        percentage: 40.0
+                    total_companies: 25
+                    total_industries: 2
+
+        "400":
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                detail: "location_id must be a positive integer"
+
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                detail: "Database connection failed"
+
+components:
+  schemas:
+    IndustryStatItem:
+      type: object
+      required:
+        - id
+        - name
+        - company_count
+        - percentage
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the industry
+          minimum: 1
+          example: 1
+        name:
+          type: string
+          description: Display name of the industry
+          minLength: 1
+          maxLength: 100
+          example: Software
+        company_count:
+          type: integer
+          description: Number of companies in this industry
+          minimum: 0
+          example: 42
+        percentage:
+          type: number
+          format: float
+          description: Percentage of total companies (0-100, 2 decimal precision)
+          minimum: 0.0
+          maximum: 100.0
+          example: 35.25
+
+    IndustryStatsResponse:
+      type: object
+      required:
+        - stats
+        - total_companies
+        - total_industries
+      properties:
+        stats:
+          type: array
+          description: List of industries with statistics, sorted by company_count DESC
+          items:
+            $ref: "#/components/schemas/IndustryStatItem"
+        total_companies:
+          type: integer
+          description: Total number of companies across all industries (or filtered subset)
+          minimum: 0
+          example: 119
+        total_industries:
+          type: integer
+          description: Number of unique industries with at least 1 company
+          minimum: 0
+          example: 4
+
+    ErrorResponse:
+      type: object
+      required:
+        - detail
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message
+          example: "Invalid parameter value"
+
+tags:
+  - name: Industries
+    description: Operations related to industry data and statistics
